@@ -19,5 +19,5 @@ class Miner:
                 time.sleep(5)
             else:
                 print("No hay nodos, moviéndose...")
-                self.navigator.next_step()
+                ## self.navigator.next_step()
                 time.sleep(2)

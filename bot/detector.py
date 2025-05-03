@@ -25,7 +25,10 @@ class Detector:
             result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
             loc = np.where(result >= self.threshold)
             for pt in zip(*loc[::-1]):
-                return pt
+                w, h = template.shape[::-1]
+                center_x = pt[0] + w // 2
+                center_y = pt[1] + h // 2
+                return (center_x, center_y)
 
         return None
       
