@@ -1,6 +1,7 @@
 import time
 from bot.coordinate_recognizer import CoordinateRecognizer
 import pyautogui
+from bot.miner import Miner
 
 
 # Ruta de mapas que escogeremos
@@ -11,6 +12,9 @@ last_coord = None
 
 # Inicializar el reconocedor
 recognizer = CoordinateRecognizer(coords_path=path)
+
+# La ruta donde tienes las imágenes de los minerales
+miner = Miner(nodes_path="assets/nodes/flower") 
 
 def click_left():
     screen_width, screen_height = pyautogui.size()
@@ -38,19 +42,23 @@ while True:
         if coord != last_coord:
             last_coord = coord
 
+
+            # 🚨 NUEVO: buscar y recolectar nodos
+            print("Buscando nodos para recolectar...")
+            miner.find_and_collect_nodes()
+
             if coord == "3,-14":
                 print("Mover derecha")
-                left = True
+                isLeft = True
 
             elif coord == "10,-14":
                 print("Mover izquierda")
-                left = False
+                isLeft = False
 
-            if left is not None:
-                if left:
-                    click_right()
-                else:
-                    click_left()
+            if isLeft:
+                click_right()
+            else:
+                click_left()
 
     else:
         print("No se pudo detectar coordenada.")

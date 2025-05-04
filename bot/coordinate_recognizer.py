@@ -12,14 +12,29 @@ class CoordinateRecognizer:
 
     def load_templates(self):
         templates = {}
-        for filename in os.listdir(self.coords_path):
-            if filename.lower().endswith(('.png', '.jpg', '.jpeg')): # Filtra solo imágenes
-                print(filename)
-                path = os.path.join(self.coords_path, filename)
-                img = cv2.imread(path, 0)  # Gris
 
-                coord_name = filename.replace(".png", "")
-                templates[coord_name] = img
+        for filename in os.listdir(self.coords_path):
+            path = os.path.join(self.coords_path, filename)
+
+            # Ignorar carpetas, solo procesar archivos
+            if not os.path.isfile(path):
+                continue
+
+            # Filtrar solo imágenes
+            if not filename.lower().endswith(('.png', '.jpg', '.jpeg')):
+                continue
+
+            # Leer imagen en gris
+            img = cv2.imread(path, 0)
+
+            # Validar que se haya cargado bien
+            if img is None:
+                print(f"Advertencia: No se pudo cargar la imagen {filename}. Saltando.")
+                continue
+
+            coord_name = filename.rsplit(".", 1)[0]  # Quitar extensión de forma más segura
+            templates[coord_name] = img
+            print(f"Cargada imagen de nodo: {coord_name}")
 
         return templates
 

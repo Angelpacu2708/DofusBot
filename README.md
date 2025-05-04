@@ -2,4 +2,4 @@
 
 Proyecto base para automatizar tareas de minería en Dofus.
 
-python -m bot.main
+python -m bot.main 
